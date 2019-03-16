@@ -16,6 +16,11 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/jobs', 'JobController@index');
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/user/{user_id}', 'UserController@show');
+});
 

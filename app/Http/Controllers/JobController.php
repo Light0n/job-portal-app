@@ -18,6 +18,9 @@ class JobController extends Controller
             unset($job->employer_status);
             unset($job->jobseeker_review_id);
             unset($job->employer_review_id);
+            //number of bids
+            $job->number_of_application =  DB::select('select count(job_id) as count 
+                from job_application where job_id = '.$job->id)[0]->count;
             //get array of required skills
             $job->required_skills = DB::select("select s.id, s.skill_name
                 from job as j join job_required_skill as jrs 

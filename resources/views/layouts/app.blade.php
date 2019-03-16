@@ -12,14 +12,28 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="app">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
                 {{ config('app.name', 'Job Portal') }}
             </a>
+
+            @if (!Auth::guest())
+            <ul class="navbar-nav">
+                <li class="nav-item"><a href="{{ route('jobs') }}" class="nav-link">
+                        Post a Job</a></li>
+                <li class="nav-item"><a href="{{ route('jobs') }}" class="nav-link">
+                    Browse Jobs</a></li>
+                <li class="nav-item"><a href="{{ route('home') }}" class="nav-link">
+                    My Jobs</a></li>
+            </ul>
+            @endif
+
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

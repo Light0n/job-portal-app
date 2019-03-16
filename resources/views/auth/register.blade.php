@@ -42,12 +42,71 @@
 							<label class="col-lg-4 col-form-label text-lg-right">E-Mail Address</label>
 
 							<div class="col-lg-6">
-								<input type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}"
+								<input type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}"
 								 required>
 
 								@if ($errors->has('email'))
 								<div class="invalid-feedback">
 									<strong>{{ $errors->first('email') }}</strong>
+								</div>
+								@endif
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label text-lg-right">Phone</label>
+
+							<div class="col-lg-6">
+								<input type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}"
+								 required>
+
+								@if ($errors->has('phone'))
+								<div class="invalid-feedback">
+									<strong>{{ $errors->first('phone') }}</strong>
+								</div>
+								@endif
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label text-lg-right">City</label>
+
+							<div class="col-lg-6">
+								<input type="text" class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" name="city" value="{{ old('city') }}"
+								 required>
+
+								@if ($errors->has('city'))
+								<div class="invalid-feedback">
+									<strong>{{ $errors->first('city') }}</strong>
+								</div>
+								@endif
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label text-lg-right">Province</label>
+
+							<div class="col-lg-6">
+								<input type="text" class="form-control{{ $errors->has('province') ? ' is-invalid' : '' }}" name="province" value="{{ old('province') }}"
+								 required>
+
+								@if ($errors->has('province'))
+								<div class="invalid-feedback">
+									<strong>{{ $errors->first('province') }}</strong>
+								</div>
+								@endif
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label text-lg-right">Country</label>
+
+							<div class="col-lg-6">
+								<input type="text" class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" name="country" value="{{ old('country') }}"
+								 required>
+
+								@if ($errors->has('country'))
+								<div class="invalid-feedback">
+									<strong>{{ $errors->first('country') }}</strong>
 								</div>
 								@endif
 							</div>

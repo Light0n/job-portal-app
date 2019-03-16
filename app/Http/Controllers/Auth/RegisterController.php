@@ -55,7 +55,7 @@ class RegisterController extends Controller
             'city' => 'string|max:255',
             'province' => 'string|max:255',
             'country' => 'string|max:255',
-            'phone' => 'string|max:15',
+            'phone' => 'required|string|max:15',
         ]);
     }
 
@@ -72,6 +72,10 @@ class RegisterController extends Controller
             'last_name' => $data['last_name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'city' => $data['city'],
+            'province' => $data['province'],
+            'country' => $data['country'],
+            'phone' => $data['phone'],
         ]);
     }
 }

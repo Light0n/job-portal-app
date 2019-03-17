@@ -60,6 +60,21 @@ class JobController extends Controller
             $application->jobseeker_info = $jobseeker_info;
         }
 
+        //number of bids
+        $job->number_of_application =  DB::select('select count(job_id) as count 
+        from job_application where job_id = '.$job->id)[0]->count;
+        //get array of required skills
+        $job->required_skills = DB::select("select s.id, s.skill_name
+            from job as j join job_required_skill as jrs 
+                on j.id = jrs.job_id 
+                join skill as s 
+                on jrs.skill_id = s.id 
+                where j.id=".$job->id);
+        //get employer info
+        $job->employer_info = DB::select('select 
+            total_employer_reviews, employeer_avg_rate
+            from user where id = '.$job->employer_id);
+
         $job->job_applications = $job_applications;
 
         return view("job", compact("job"));

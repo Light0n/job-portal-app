@@ -37,4 +37,31 @@ class JobController extends Controller
         return view("jobs", compact("jobs"));
         // return dd(DB::select("select * from job where status='open'"));
     }
+
+    public function show($job_id){
+        //get the job
+        $job = DB::select("select * from job where status='open' and id=".$job_id)[0];
+
+        //get the job applications 
+        $job_applications = DB::select('select * from job_application
+            where job_id ='.$job_id);
+
+        //
+        foreach ($job_applications as &$application) {
+            $jobseeker_info = DB::select('select * from 
+                user where id = '.$application->jobseeker_id)[0];
+
+            //hide attributes
+            unset($jobseeker_info->password);
+            unset($jobseeker_info->remember_token);
+            unset($jobseeker_info->employeer_avg_rate);
+            unset($jobseeker_info->total_employer_reviews);
+
+            $application->jobseeker_info = $jobseeker_info;
+        }
+
+        $job->job_applications = $job_applications;
+
+        return view("job", compact("job"));
+    }
 }

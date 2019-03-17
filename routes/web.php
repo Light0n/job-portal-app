@@ -19,6 +19,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/jobs', 'JobController@index')->name('jobs');
+Route::get('/jobs/{job_id}', 'JobController@show');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/{user_id}', 'UserController@show');

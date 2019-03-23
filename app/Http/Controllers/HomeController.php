@@ -38,6 +38,8 @@ class HomeController extends Controller
         //user as jobseeker jobs arrays
         $jobs_apply=array(); $jobs_in_progress=array(); $jobs_past=array();
 
+        $jobs_apply = DB::select("select * from job where id in (select ja.job_id from job_application as ja, job as j where ja.job_id = j.id and j.status='open' and ja.jobseeker_id=" . $user->id . ");");
+
         foreach ($jobs as $job) {
             //hide attributes
 
@@ -51,9 +53,7 @@ class HomeController extends Controller
                     $job_posts_past[] = $job;
                 }
             }else if($job->jobseeker_id == $user->id){
-                if($job->status == "open"){
-                    $jobs_apply[] = $job;
-                }else if($job->status == "in-progress"){
+                if($job->status == "in-progress"){
                     $jobs_in_progress[] = $job;
                 }else if($job->status == "incomplete" 
                     || $job->status == "complete" ){

@@ -11,18 +11,27 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//welcome page
+Route::get('/', function () {return view('welcome');});
 
+//login, register 
 Auth::routes();
+
+//user homepage
 Route::get('/home', 'HomeController@index')->name('home');
 
+//browse jobs
 Route::get('/jobs', 'JobController@index')->name('jobs');
+
+//show one job
 Route::get('/jobs/{job_id}', 'JobController@show');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/user/{user_id}', 'UserController@show');
+    Route::get('/user/{user_id}', 'UserController@show');//test
+
+    //edit user + add skills
+    Route::get('user/{user_id}/edit', 'UserController@edit');
+    Route::put('user/{user_id}', 'UserController@update');
 });
 
 

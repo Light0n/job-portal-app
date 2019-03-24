@@ -11349,9 +11349,6 @@ module.exports = __webpack_require__(47);
  */
 
 __webpack_require__(12);
-// require( 'datatables.net-bs4' )();
-// var $  = require( 'jquery' );
-// var dt = require( 'datatables.net' )( window, $ );
 
 window.Vue = __webpack_require__(39);
 
@@ -11383,9 +11380,10 @@ window.Popper = __webpack_require__(15);
  */
 
 try {
-  // window.$ = window.jQuery = require('jquery/dist/jquery.min.js');
-  window.$ = window.jQuery = __webpack_require__(2);
+  // window.$ = window.jQuery = require('jquery/dist/jquery.slim.js');
 
+  // require datatable
+  window.$ = window.jQuery = __webpack_require__(2);
   __webpack_require__(16)();
 
   __webpack_require__(18);

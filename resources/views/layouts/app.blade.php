@@ -14,6 +14,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    @yield('page-style');
 </head>
 <body>
 <div id="app">
@@ -56,6 +57,10 @@
                                     Logout
                                 </a>
 
+                                <a href="{{ action('UserController@edit', Auth::user()->id) }}" class="dropdown-item">
+                                    Edit User Info
+                                </a>
+
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                       style="display: none;">
                                     {{ csrf_field() }}
@@ -74,6 +79,14 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+<script>
+$(document).ready(function () {
+    //
+    $('body .dropdown-toggle').click(function () {
+        $('.dropdown-menu').toggle().delay(2000).slideUp();
+    }) 
+});
+</script>
 @yield('page-js-files')
 @yield('page-js-script')
 </body>

@@ -25,16 +25,30 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/{user_id}', 'UserController@show');
 });
 
+
+
+// CRUD CATEGORY BEGIN
 //show all category
 Route::get('/category', 'CategoryController@index');
 //create a category
 Route::get('/category/create', 'CategoryController@create');
 Route::post('/category', 'CategoryController@store');
-
 //edit a category
 Route::get('/category/{category_id}/edit', 'CategoryController@edit');
 Route::put('/category/{category_id}', 'CategoryController@update');
-
 //delete a category
 Route::delete('/category/{category_id}', 'CategoryController@destroy');
+// CRUD CATEGORY END
 
+// CRUD SKILL BEGIN
+//show all skill
+Route::get('/skill', 'SkillController@index');
+//create a skill
+Route::get('/skill/create', 'SkillController@create');
+Route::post('/skill', 'SkillController@store');
+//edit a skill
+Route::get('/skill/{skill_id}/edit', 'SkillController@edit');
+Route::put('/skill/{skill_id}', 'SkillController@update');
+//delete a skill
+Route::delete('/skill/{skill_id}', 'SkillController@destroy');
+// CRUD SKILL END

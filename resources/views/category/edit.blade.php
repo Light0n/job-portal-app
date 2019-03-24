@@ -17,7 +17,7 @@
             @endif
             {{-- return message end --}}
 			<div class="card">
-				<div class="card-header">Update a Category</div>
+				<div class="card-header">Edit a Category</div>
 				<div class="card-body">
 					<form role="form" method="POST" action="{{ action('CategoryController@update', $category_id) }}">
 						{!! csrf_field() !!}

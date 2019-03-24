@@ -10,6 +10,8 @@ class Category extends Model
 
     public $timestamps = false;// disable Laravel default $timestamps
 
+    protected $fillable = ['category_name','description'];
+
     public function skills(){
         return $this->hasMany('App\Skill', 'category_id', 'category_id');
     }

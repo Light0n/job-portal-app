@@ -25,3 +25,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/user/{user_id}', 'UserController@show');
 });
 
+//show all category
+Route::get('/category', 'CategoryController@index');
+//create a category
+Route::get('/category/create', 'CategoryController@create');
+Route::post('/category', 'CategoryController@store');
+
+//edit a category
+Route::get('/category/{category_id}/edit', 'CategoryController@edit');
+Route::put('/category/{category_id}', 'CategoryController@update');
+
+//delete a category
+Route::delete('/category/{category_id}', 'CategoryController@destroy');
+

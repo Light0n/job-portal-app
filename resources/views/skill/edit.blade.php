@@ -14,20 +14,34 @@
             @endif
             {{-- return message end --}}
 			<div class="card">
-				<div class="card-header">Edit a Category</div>
+				<div class="card-header">Edit a Skill</div>
 				<div class="card-body">
-					<form role="form" method="POST" action="{{ action('CategoryController@update', $category_id) }}">
+					<form role="form" method="POST" action="{{ action('SkillController@update', $skill_id) }}">
 						{!! csrf_field() !!}
                         <input name="_method" type="hidden" value="PUT">
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label text-lg-right">Category</label>
+
+							<div class="col-lg-6">
+								<select class="custom-select form-control" name="category_id">
+									@foreach ($categories as $category)
+										<option value="{{$category->id}}"
+                                        {{ $category->id == $skill->category_id? "selected" : "" }}>
+                                        {{$category->category_name}}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+
 						<div class="form-group row">
 							<label class="col-lg-4 col-form-label text-lg-right">Name</label>
 
 							<div class="col-lg-6">
-								<input type="text" class="form-control{{ $errors->has('category_name') ? ' is-invalid' : '' }}" name="category_name"
-								 required value="{{$category->category_name}}">
-								@if ($errors->has('category_name'))
+								<input type="text" class="form-control{{ $errors->has('skill_name') ? ' is-invalid' : '' }}" name="skill_name" value="{{ $skill->skill_name }}"
+								 required>
+								@if ($errors->has('skill_name'))
 								<div class="invalid-feedback">
-									<strong>{{ $errors->first('category_name') }}</strong>
+									<strong>{{ $errors->first('skill_name') }}</strong>
 								</div>
 								@endif
 							</div>
@@ -37,7 +51,7 @@
 							<label class="col-lg-4 col-form-label text-lg-right">Description</label>
 
 							<div class="col-lg-6">
-								<textarea type="text" rows="3" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description">{{$category->description}}</textarea>
+								<textarea type="text" rows="3" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description">{{ $skill->description }}</textarea>
 								@if ($errors->has('description'))
 								<div class="invalid-feedback">
 									<strong>{{ $errors->first('description') }}</strong>
@@ -49,9 +63,9 @@
 						<div class="form-group row">
 							<div class="col-lg-6 offset-lg-4">
 								<button type="submit" class="btn btn-success">
-									Update Category
+									Update Skill
 								</button>
-                                <a href="{{action('CategoryController@index')}}" class="btn btn-primary ">View all Categories</a>
+                                <a href="{{action('SkillController@index')}}" class="btn btn-primary ">View all Skills</a>
 							</div>
 						</div>
 					</form>

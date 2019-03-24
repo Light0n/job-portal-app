@@ -11,64 +11,72 @@ class SkillController extends Controller
     //show all skills
     public function index(){
         
-        $skills = DB::select("select * from skill");
+        $skills = DB::select("select s.id, s.skill_name, s.description, c.category_name from skill as s, category as c where s.category_id = c.id");
 
         return view("skill.index", compact("skills"));
     }
 
-    public function destroy($category_id)
+    public function destroy($skill_id)
     {
-        //check number of skill belong to this category
-        $count = DB::select("select count(*) as count from skill, category where category_id=category.id and category.id=".$category_id)[0]->count;
+        // delete all related in user_skill and job_required_skill tables
+        DB::select('delete from user_skill where skill_id = '.$skill_id);
+        DB::select('delete from job_required_skill where skill_id = '.$skill_id);
         
-        $category_name = DB::select("select category_name from category where id=".$category_id);
+        //get skill name before delete
+        $skill_name = DB::select("select skill_name from skill where id=".$skill_id);
 
-        if($count == 0){//delete category
-            DB::select("delete from category where id=".$category_id);
-            return redirect('category')->with('message', ['success', 'Category '. ($category_name? '"'.$category_name[0]->category_name.'"' : '') .' has been deleted']);
-        }else{//do not allow
-            return redirect('category')->with('message',  ['danger','Category '.($category_name? '"'.$category_name[0]->category_name.'"' : '').' has not been deleted because it may have many dependent skills!']);
-        }
+        //delete skill
+        DB::select("delete from skill where id=".$skill_id);
+        
+        return redirect('skill')->with('message', ['success', 'Skill '. ($skill_name? '"'.$skill_name[0]->skill_name.'"' : '') .' has been deleted']);
     }
 
+
     public function create(){
-        return view("category.create");
+        //get all categories
+        $categories = DB::select('select id, category_name from category');
+
+        return view("skill.create", compact('categories'));
     }
 
     public function store(Request $request){
         //validate
-        $category = $this->validate(request(), [
-            'category_name' => 'bail|required|unique:category',
+        $skill = $this->validate(request(), [
+            'category_id' => 'required',
+            'skill_name' => 'bail|required',
             'description' => 'nullable'
           ]);
+    
+          Skill::create($skill);
 
-          Category::create($category);
-
-          return back()->with('message', ['success', 'Category "'.$category["category_name"]
+          return back()->with('message', ['success', 'Skill "'.$skill["skill_name"]
           .'" has been created']);
     }
 
-    public function edit($category_id){
-        $category = Category::find($category_id);
-        // dd($category);
-        return view('category.edit', compact('category', 'category_id'));
+    public function edit($skill_id){
+        //get all categories
+        $categories = DB::select('select id, category_name from category');
+
+        $skill = Skill::find($skill_id);
+
+        return view('skill.edit', compact('skill', 'skill_id', 'categories'));
     }
 
-    public function update(Request $request, $category_id){
-        $category = Category::find($category_id);
+    public function update(Request $request, $skill_id){
+        $skill = Skill::find($skill_id);
 
-        if($request->get('category_name') !=  $category->category_name){
-            // category name is diffirent, then check it is unique or not
-            $this->validate(request(), [
-                'category_name' => 'bail|required|unique:category',
-                'description' => 'nullable'
-            ]);
-        }
+        //validate
+        $this->validate(request(), [
+            'category_id' => 'required',
+            'skill_name' => 'bail|required',
+            'description' => 'nullable'
+        ]);
 
-        $category->category_name = $request->get('category_name');
-        $category->description = $request->get('description');
-        $category->save();
-        return redirect('category')->with('message',['success', 'Category "'.$category["category_name"]
+        $skill->category_id = $request->get('category_id');
+        $skill->skill_name = $request->get('skill_name');
+        $skill->description = $request->get('description');
+        $skill->save();
+        return redirect('skill')->with('message',['success', 'Skill "'.$skill["skill_name"]
         .'" has been updated']);
     }
 }

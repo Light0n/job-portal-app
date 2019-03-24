@@ -10,9 +10,6 @@
             session("message")[1]: message content --}}
                 <div class="alert alert-{{session("message")[0]}} alert-dismissible fade show" role="alert">
                 <strong>{{session("message")[1]}}</strong>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
                 </div>
             @endif
             {{-- return message end --}}
@@ -40,7 +37,7 @@
 							<label class="col-lg-4 col-form-label text-lg-right">Description</label>
 
 							<div class="col-lg-6">
-								<textarea type="text" rows="3" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description" value="{{ old('description') }}"></textarea>
+								<textarea type="text" rows="3" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description">{{ old('description') }}</textarea>
 								@if ($errors->has('description'))
 								<div class="invalid-feedback">
 									<strong>{{ $errors->first('description') }}</strong>
@@ -64,3 +61,10 @@
 	</div>
 </div>
 @endsection
+@section('page-js-script')
+<script type="text/javascript">
+$(document).ready(function () {
+    $('.alert').delay(2000).slideUp("slow");
+});
+</script>
+@stop

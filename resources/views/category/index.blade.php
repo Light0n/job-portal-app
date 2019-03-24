@@ -10,9 +10,6 @@
         session("message")[1]: message content --}}
             <div class="alert alert-{{session("message")[0]}} alert-dismissible fade show" role="alert">
             <strong>{{session("message")[1]}}</strong>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
             </div>
         @endif
         {{-- return message end --}}
@@ -23,11 +20,12 @@
                     
                 <div class="card-body">
                     <table class="table table-sm table-striped" id="mainTable">
-            <thead class="">
+            <thead>
               <tr>
                 <th scope="col">Name</th>
                 <th scope="col">Description</th>
-                <th scope="col" colspan="2">Actions</th>
+                <th scope="col">Actions</th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
@@ -60,5 +58,10 @@
 
 @section('page-js-script')
 <script type="text/javascript">
+$(document).ready(function () {
+    $('#mainTable').DataTable();
+    $('#mainTable').css('display','table');
+    $('.alert').delay(2000).slideUp("slow");
+});
 </script>
 @stop

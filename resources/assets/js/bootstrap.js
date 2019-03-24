@@ -10,7 +10,11 @@ window.Popper = require('popper.js/dist/umd/popper');
  */
 
 try {
-    window.$ = window.jQuery = require('jquery/dist/jquery.slim');
+    // window.$ = window.jQuery = require('jquery/dist/jquery.min.js');
+
+    // require datatable
+    window.$ = window.jQuery = require('jquery');
+    require( 'datatables.net-bs4' )();
 
     require('bootstrap');
 } catch (e) {}

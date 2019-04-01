@@ -14,45 +14,37 @@
             @endif
             {{-- return message end --}}
 			<div class="card">
-				<div class="card-header">Add new Skill</div>
+				<div class="card-header">Apply for <b>{{$job_title}}</b> </div>
 				<div class="card-body">
-					<form role="form" method="POST" action="{{ url('/skill') }}">
+					<form role="form" method="POST" action="{{ url('/job-application') }}">
 						{!! csrf_field() !!}
+                        <input name="job_id" type="hidden" value="{{$job_id}}">
+                        <input name="jobseeker_id" type="hidden" value="{{$jobseeker_id}}">
+                        <input name="job_title" type="hidden" value="{{$job_title}}">
 
 						<div class="form-group row">
-							<label class="col-lg-4 col-form-label text-lg-right">Category</label>
+							<label class="col-lg-4 col-form-label text-lg-right">Bid Value</label>
 
 							<div class="col-lg-6">
-								<select class="custom-select form-control" name="category_id">
-									@foreach ($categories as $category)
-										<option value="{{$category->id}}">{{$category->category_name}}</option>
-									@endforeach
-								</select>
-							</div>
-						</div>
-
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label text-lg-right">Name</label>
-
-							<div class="col-lg-6">
-								<input type="text" class="form-control{{ $errors->has('skill_name') ? ' is-invalid' : '' }}" name="skill_name" value="{{ old('skill_name') }}"
+								<input type="number" min="0" step=".01" class="form-control{{ $errors->has('bid_value') ? ' is-invalid' : '' }}" name="bid_value" value="{{ old('bid_value') }}"
 								 required>
-								@if ($errors->has('skill_name'))
+								@if ($errors->has('bid_value'))
 								<div class="invalid-feedback">
-									<strong>{{ $errors->first('skill_name') }}</strong>
+									<strong>{{ $errors->first('bid_value') }}</strong>
 								</div>
 								@endif
 							</div>
 						</div>
 
 						<div class="form-group row">
-							<label class="col-lg-4 col-form-label text-lg-right">Description</label>
+							<label class="col-lg-4 col-form-label text-lg-right">Bid Time (days)</label>
 
 							<div class="col-lg-6">
-								<textarea type="text" rows="3" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description">{{ old('description') }}</textarea>
-								@if ($errors->has('description'))
+								<input type="number" min="0" class="form-control{{ $errors->has('bid_completion_day') ? ' is-invalid' : '' }}" name="bid_completion_day" value="{{ old('bid_completion_day') }}"
+								 required>
+								@if ($errors->has('bid_completion_day'))
 								<div class="invalid-feedback">
-									<strong>{{ $errors->first('description') }}</strong>
+									<strong>{{ $errors->first('bid_completion_day') }}</strong>
 								</div>
 								@endif
 							</div>
@@ -61,9 +53,9 @@
 						<div class="form-group row">
 							<div class="col-lg-6 offset-lg-4">
 								<button type="submit" class="btn btn-success">
-									Add Skill
+									Apply
 								</button>
-                                <a href="{{action('SkillController@index')}}" class="btn btn-primary ">View all Skills</a>
+                                <a href="{{action('JobController@show', $job_id)}}" class="btn btn-primary ">View Job</a>
 							</div>
 						</div>
 					</form>
@@ -76,6 +68,7 @@
 @section('page-js-script')
 <script type="text/javascript">
 $(document).ready(function () {
+
 });
 </script>
 @stop

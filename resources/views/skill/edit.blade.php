@@ -78,7 +78,6 @@
 @section('page-js-script')
 <script type="text/javascript">
 $(document).ready(function () {
-    $('.alert').delay(2000).slideUp("slow");
 });
 </script>
 @stop

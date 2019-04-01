@@ -24,7 +24,7 @@ class CreateUserTable extends Migration
             $table->string('country')->nullable();
             $table->string('phone', 15)->nullable();
             $table->unsignedSmallInteger('total_employer_reviews')->default(0);
-            $table->decimal('employeer_avg_rate', 3, 2)->default(0);
+            $table->decimal('employer_avg_rate', 3, 2)->default(0);
             $table->unsignedSmallInteger('total_jobseeker_reviews')->default(0);
             $table->decimal('jobseeker_avg_rate', 3, 2)->default(0);
             $table->rememberToken();

@@ -61,7 +61,6 @@
 $(document).ready(function () {
     $('#mainTable').DataTable();
     $('#mainTable').css('display','table');
-    $('.alert').delay(2000).slideUp("slow");
 });
 </script>
 @stop

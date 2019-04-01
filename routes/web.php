@@ -32,6 +32,41 @@ Route::group(['middleware' => ['auth']], function () {
     //edit user + add skills
     Route::get('user/{user_id}/edit', 'UserController@edit');
     Route::put('user/{user_id}', 'UserController@update');
+
+    //create a job post
+    Route::get('job/create', 'JobController@create');
+    Route::post('job/', 'JobController@store');
+
+    //edit a job post
+    Route::get('job/{job_id}/edit', 'JobController@edit');
+    Route::put('job/{job_id}', 'JobController@update');
+
+    //delete a job
+    Route::delete('/job/{job_id}', 'JobController@destroy');
+
+    //employer accept a job
+    Route::put('job/{job_id}/accept', 'JobController@employerAccept');
+
+    //employer cancel a job
+    Route::put('job/{job_id}/employer-cancel', 'JobController@employerCancel');
+
+    //jobseeker cancel a job
+    Route::put('job/{job_id}/jobseeker-cancel', 'JobController@jobseekerCancel');
+
+    //employer pick a jobseeker
+    Route::put('job/{job_id}/employer-pick', 'JobController@employerPick');
+
+
+    //create job application
+    Route::get('/job-application/create', 'JobApplicationController@create');
+    Route::post('/job-application', 'JobApplicationController@store');
+
+    //edit job application
+    Route::get('job-application/{job_id}/edit', 'JobApplicationController@edit');
+    Route::put('job-application/{job_id}', 'JobApplicationController@update');
+
+    //delete job application
+    Route::delete('/job-application/{job_id}', 'JobApplicationController@destroy');
 });
 
 

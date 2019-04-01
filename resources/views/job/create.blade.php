@@ -27,12 +27,122 @@ input[type=checkbox]
             @endif
             {{-- return message end --}}
 			<div class="card">
-				<div class="card-header">Edit User Info</div>
+				<div class="card-header">Select Required Skills for this Job</div>
 				<div class="card-body">
-					<form role="form" method="POST" action="{{ action('UserController@update', $user_id) }}">
+					<form role="form" method="POST" action="{{ action('JobController@store') }}">
                     <div class="row"> {{-- start a row--}}
-                        <div class="col-md-8">{{-- start 2nd column --}}
-                        <h5>All User Skills</h5>
+                        <div class="col-md-6"> {{-- start 1st column --}}
+						{!! csrf_field() !!}
+                        <input name="employer_id" type="hidden" value="{{Auth::user()->id}}">
+                        <div class="form-group row">
+							<label class="col-lg-4 col-form-label text-lg-right">Title</label>
+
+							<div class="col-lg-8">
+								<input type="text" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title" value="{{ old('title') }}"
+								 required>
+								@if ($errors->has('title'))
+								<div class="invalid-feedback">
+									<strong>{{ $errors->first('title') }}</strong>
+								</div>
+								@endif
+							</div>
+						</div>
+
+                        <div class="form-group row">
+							<label class="col-lg-4 col-form-label text-lg-right">Description</label>
+
+							<div class="col-lg-8">
+								<textarea type="text" rows="10" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description">{{ old('description') }}</textarea>
+								@if ($errors->has('description'))
+								<div class="invalid-feedback">
+									<strong>{{ $errors->first('description') }}</strong>
+								</div>
+								@endif
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label text-lg-right">Estimated Budget</label>
+
+							<div class="col-lg-8">
+								<input type="text" class="form-control{{ $errors->has('estimated_budget') ? ' is-invalid' : '' }}" name="estimated_budget" value="{{ old('estimated_budget') }}"
+								 required>
+								@if ($errors->has('estimated_budget'))
+								<div class="invalid-feedback">
+									<strong>{{ $errors->first('estimated_budget') }}</strong>
+								</div>
+								@endif
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label text-lg-right">City</label>
+
+							<div class="col-lg-8">
+								<input type="text" class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" name="city" value="{{ old('city') }}">
+
+								@if ($errors->has('city'))
+								<div class="invalid-feedback">
+									<strong>{{ $errors->first('city') }}</strong>
+								</div>
+								@endif
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label text-lg-right">Province</label>
+
+							<div class="col-lg-8">
+								<input type="text" class="form-control{{ $errors->has('province') ? ' is-invalid' : '' }}" name="province" value="{{ old('province') }}">
+
+								@if ($errors->has('province'))
+								<div class="invalid-feedback">
+									<strong>{{ $errors->first('province') }}</strong>
+								</div>
+								@endif
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-lg-4 col-form-label text-lg-right">Country</label>
+
+							<div class="col-lg-8">
+								<input type="text" class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" name="country" value="{{ old('country') }}">
+
+								@if ($errors->has('country'))
+								<div class="invalid-feedback">
+									<strong>{{ $errors->first('country') }}</strong>
+								</div>
+								@endif
+							</div>
+						</div>
+
+                        {{-- All Skills selection --}}
+                        <div class="form-group row">
+							<label class="col-lg-4 col-form-label text-lg-right">Skills</label>
+
+							<div class="col-lg-8">
+								<select class="custom-select form-control" name="skill_ids[]" multiple>
+									@foreach ($skills as $skill)
+										<option value="{{$skill->id}}">
+                                        {{$skill->skill_name}}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+
+                        <div class="form-group row">
+							<div class="col-lg-6 offset-lg-4">
+                                <button type="submit" class="btn btn-success">
+									Post
+								</button>
+                                <a href="{{route('home')}}" class="btn btn-danger">Cancel</a>
+							</div>
+						</div>
+                        
+                        </div>{{-- end 1st column --}}
+
+                        <div class="col-md-6">{{-- start 2nd column --}}
+                        <h5>Select Required Skills for this Job</h5>
                         <table class="table table-sm table-striped" id="mainTable" style="display:none">
                             <thead>
                             <tr>
@@ -50,139 +160,13 @@ input[type=checkbox]
                                 <td>{{ $skill->description }}</td>
                                 <td align="center">
                                     <input type="checkbox" class="select-skill" 
-                                        value="{{$skill->id}}" {{ $skill->selected? "checked" : "" }}>
+                                        value="{{$skill->id}}">
                                 </td>
-                                <td>{{ $skill->selected? "Selected" : "" }}
-                                </td>
+                                <td></td>
                                 </tr>
                             @endforeach
                         </tbody></table>
                         </div>{{-- end 2nd col 6 --}}
-                        <div class="col-md-4"> {{-- start 1st column --}}
-						{!! csrf_field() !!}
-                        <input name="_method" type="hidden" value="PUT">
-						<div style="height:105px"></div>
-                        <div class="form-group row">
-							<label class="col-lg-4 col-form-label text-lg-right">First Name</label>
-
-							<div class="col-lg-8">
-								<input type="text" class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}" name="first_name" value="{{ $user->first_name }}"
-								 required>
-								@if ($errors->has('first_name'))
-								<div class="invalid-feedback">
-									<strong>{{ $errors->first('first_name') }}</strong>
-								</div>
-								@endif
-							</div>
-						</div>
-
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label text-lg-right">Last Name</label>
-
-							<div class="col-lg-8">
-								<input type="text" class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}" name="last_name" value="{{ $user->last_name }}"
-								 required>
-								@if ($errors->has('last_name'))
-								<div class="invalid-feedback">
-									<strong>{{ $errors->first('last_name') }}</strong>
-								</div>
-								@endif
-							</div>
-						</div>
-
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label text-lg-right">Phone</label>
-
-							<div class="col-lg-8">
-								<input type="text" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ $user->phone }}"
-								 required>
-
-								@if ($errors->has('phone'))
-								<div class="invalid-feedback">
-									<strong>{{ $errors->first('phone') }}</strong>
-								</div>
-								@endif
-							</div>
-						</div>
-
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label text-lg-right">City</label>
-
-							<div class="col-lg-8">
-								<input type="text" class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}" name="city" value="{{ $user->city }}"
-								 required>
-
-								@if ($errors->has('city'))
-								<div class="invalid-feedback">
-									<strong>{{ $errors->first('city') }}</strong>
-								</div>
-								@endif
-							</div>
-						</div>
-
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label text-lg-right">Province</label>
-
-							<div class="col-lg-8">
-								<input type="text" class="form-control{{ $errors->has('province') ? ' is-invalid' : '' }}" name="province" value="{{ $user->province }}"
-								 required>
-
-								@if ($errors->has('province'))
-								<div class="invalid-feedback">
-									<strong>{{ $errors->first('province') }}</strong>
-								</div>
-								@endif
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-lg-4 col-form-label text-lg-right">Country</label>
-
-							<div class="col-lg-8">
-								<input type="text" class="form-control{{ $errors->has('country') ? ' is-invalid' : '' }}" name="country" value="{{ $user->country }}"
-								 required>
-
-								@if ($errors->has('country'))
-								<div class="invalid-feedback">
-									<strong>{{ $errors->first('country') }}</strong>
-								</div>
-								@endif
-							</div>
-						</div>
-
-                        {{-- All Skills selection --}}
-                        <div class="form-group row">
-							<label class="col-lg-4 col-form-label text-lg-right">Skills</label>
-
-							<div class="col-lg-8">
-								<select class="custom-select form-control" name="new_skill_ids[]" multiple>
-									@foreach ($skills as $skill)
-										<option value="{{$skill->id}}"
-                                        {{ $skill->selected? "selected" : "" }}>
-                                        {{$skill->skill_name}}</option>
-									@endforeach
-								</select>
-
-                                {{-- store old skills set --}}
-                                <select name="old_skill_ids[]" multiple style="display:none">
-									@foreach ($skills as $skill)
-										<option value="{{$skill->id}}"
-                                        {{ $skill->selected? "selected" : "" }}>
-                                        {{$skill->skill_name}}</option>
-									@endforeach
-								</select>
-							</div>
-						</div>
-
-                        <div class="form-group row">
-							<div class="col-lg-6 offset-lg-4">
-                                <button type="submit" class="btn btn-success">
-									Update
-								</button>
-                                <a href="{{route('home')}}" class="btn btn-primary">Done</a>
-							</div>
-						</div>
-                        
-                        </div>{{-- end 1st column --}}
                         </div> {{-- end row --}}
 					</form>
 				</div>

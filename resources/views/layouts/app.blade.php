@@ -14,7 +14,7 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-    @yield('page-style');
+    @yield('page-style')
 </head>
 <body>
 <div id="app">
@@ -26,7 +26,7 @@
 
             @if (!Auth::guest())
             <ul class="navbar-nav">
-                <li class="nav-item"><a href="{{ route('jobs') }}" class="nav-link">
+                <li class="nav-item"><a href="{{ action('JobController@create') }}" class="nav-link">
                         Post a Job</a></li>
                 <li class="nav-item"><a href="{{ route('jobs') }}" class="nav-link">
                     Browse Jobs</a></li>
@@ -81,10 +81,12 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
 $(document).ready(function () {
-    //
-    $('body .dropdown-toggle').click(function () {
-        $('.dropdown-menu').toggle().delay(2000).slideUp();
+    
+    $('body .dropdown-toggle').click(function (e) {
+        $(this).next().toggle().delay(2000).slideUp();
     }) 
+
+    $('.alert').delay(2000).slideUp("slow");
 });
 </script>
 @yield('page-js-files')

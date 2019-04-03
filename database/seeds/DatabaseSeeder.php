@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         define('NUM_SKILL', 50); 
         define('NUM_USER', 10); 
         define('NUM_USER_SKILL', 100); 
-        define('NUM_JOB', 20); 
+        define('NUM_JOB', 50); 
         define('NUM_JOB_REQUIRED_SKILL', 100);
         define('NUM_JOB_APPLICATION', 100);
 
@@ -35,6 +35,14 @@ class DatabaseSeeder extends Seeder
         //User
         \App\User::truncate();
         factory(App\User::class, NUM_USER)->create();
+        
+        //set user admin
+        \App\User::where('id',1)->update(array(
+            'email' => 'admin@gmail.com',
+            'type' => 'admin',
+            'last_name' => "Admin",
+            'first_name' => 'I am'
+        ));
 
         //User_Skill
         \App\UserSkill::truncate();
@@ -163,8 +171,6 @@ class DatabaseSeeder extends Seeder
                     break;
             }
         }
-        
-
     }//cmd: php artisan db:seed
 }
 // recreate entire database with seed data: php artisan migrate:refresh --seed

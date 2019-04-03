@@ -14,10 +14,10 @@ class CreateJobseekerReviewTable extends Migration
     public function up()
     {
         Schema::create('jobseeker_review', function (Blueprint $table) {
-            $table->increments('php id');
+            $table->increments('id');
             $table->decimal('rate', 3, 2);
             $table->text('review_content')->nullable();
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

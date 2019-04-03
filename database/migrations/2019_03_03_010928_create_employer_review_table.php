@@ -17,7 +17,7 @@ class CreateEmployerReviewTable extends Migration
             $table->increments('id');
             $table->decimal('rate', 3, 2);
             $table->text('review_content')->nullable();
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

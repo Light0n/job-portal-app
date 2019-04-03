@@ -12,7 +12,7 @@ class JobController extends Controller
 {
     public function index(){
         //show job that have status 'open'
-        $jobs = DB::select("select * from job where status='open'");
+        $jobs = DB::select("select * from job where status='open' order by id desc");
         foreach ($jobs as &$job) {//pass $job by reference
             //hide attributes
             unset($job->updated_at);
@@ -109,7 +109,7 @@ class JobController extends Controller
                 where j.id=".$job->id);
         //get employer info
         $job->employer_info = DB::select('select 
-            total_employer_reviews, employer_avg_rate
+            email, total_employer_reviews, employer_avg_rate
             from user where id = '.$job->employer_id);
 
         // set picked application to top

@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Category;
 
 class CategoryController extends Controller
 {
     //show all categories
     public function index(){
+        if(Auth::user()->type != 'admin')
+            return redirect('/');
         
         $categories = DB::select("select * from category");
 
@@ -18,6 +21,9 @@ class CategoryController extends Controller
 
     public function destroy($category_id)
     {
+        if(Auth::user()->type != 'admin')
+            return redirect('/');
+
         //check number of skill belong to this category
         $count = DB::select("select count(*) as count from skill, category where category_id=category.id and category.id=".$category_id)[0]->count;
         
@@ -32,10 +38,16 @@ class CategoryController extends Controller
     }
 
     public function create(){
+        if(Auth::user()->type != 'admin')
+            return redirect('/');
+
         return view("category.create");
     }
 
     public function store(Request $request){
+        if(Auth::user()->type != 'admin')
+            return redirect('/');
+
         //validate
         $category = $this->validate(request(), [
             'category_name' => 'bail|required|unique:category',
@@ -49,12 +61,18 @@ class CategoryController extends Controller
     }
 
     public function edit($category_id){
+        if(Auth::user()->type != 'admin')
+            return redirect('/');
+
         $category = Category::find($category_id);
         // dd($category);
         return view('category.edit', compact('category', 'category_id'));
     }
 
     public function update(Request $request, $category_id){
+        if(Auth::user()->type != 'admin')
+            return redirect('/');
+
         $category = Category::find($category_id);
 
         if($request->get('category_name') !=  $category->category_name){

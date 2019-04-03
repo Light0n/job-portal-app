@@ -76,8 +76,8 @@
 
 
         $('#mainTable').DataTable({
-            "searching": false,
-            "lengthChange": false,
+            // "searching": false,
+            // "lengthChange": false,
             "ordering": false,
             "aaSorting": []//disable initial sort
         });

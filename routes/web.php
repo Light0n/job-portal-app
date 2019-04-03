@@ -27,7 +27,39 @@ Route::get('/jobs', 'JobController@index')->name('jobs');
 Route::get('/jobs/{job_id}', 'JobController@show');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::get('/user/{user_id}', 'UserController@show');//test
+    // Test route start
+    Route::get('/test/user/{user_id}', 'TestController@showUser');//test
+
+    Route::get('/test/job', 'TestController@showJobs');//test
+
+    Route::get('/test/job/{job_id}', 'TestController@showJob');//test
+    // Test route end
+
+    // CRUD CATEGORY BEGIN
+    //show all category
+    Route::get('/category', 'CategoryController@index');
+    //create a category
+    Route::get('/category/create', 'CategoryController@create');
+    Route::post('/category', 'CategoryController@store');
+    //edit a category
+    Route::get('/category/{category_id}/edit', 'CategoryController@edit');
+    Route::put('/category/{category_id}', 'CategoryController@update');
+    //delete a category
+    Route::delete('/category/{category_id}', 'CategoryController@destroy');
+    // CRUD CATEGORY END
+
+    // CRUD SKILL BEGIN
+    //show all skill
+    Route::get('/skill', 'SkillController@index');
+    //create a skill
+    Route::get('/skill/create', 'SkillController@create');
+    Route::post('/skill', 'SkillController@store');
+    //edit a skill
+    Route::get('/skill/{skill_id}/edit', 'SkillController@edit');
+    Route::put('/skill/{skill_id}', 'SkillController@update');
+    //delete a skill
+    Route::delete('/skill/{skill_id}', 'SkillController@destroy');
+    // CRUD SKILL END
 
     //edit user + add skills
     Route::get('user/{user_id}/edit', 'UserController@edit');
@@ -67,32 +99,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     //delete job application
     Route::delete('/job-application/{job_id}', 'JobApplicationController@destroy');
+
+    //creat a review
+    Route::get('/review/create/{job_id}', 'ReviewController@create');
+    Route::post('/review', 'ReviewController@store');
 });
-
-
-
-// CRUD CATEGORY BEGIN
-//show all category
-Route::get('/category', 'CategoryController@index');
-//create a category
-Route::get('/category/create', 'CategoryController@create');
-Route::post('/category', 'CategoryController@store');
-//edit a category
-Route::get('/category/{category_id}/edit', 'CategoryController@edit');
-Route::put('/category/{category_id}', 'CategoryController@update');
-//delete a category
-Route::delete('/category/{category_id}', 'CategoryController@destroy');
-// CRUD CATEGORY END
-
-// CRUD SKILL BEGIN
-//show all skill
-Route::get('/skill', 'SkillController@index');
-//create a skill
-Route::get('/skill/create', 'SkillController@create');
-Route::post('/skill', 'SkillController@store');
-//edit a skill
-Route::get('/skill/{skill_id}/edit', 'SkillController@edit');
-Route::put('/skill/{skill_id}', 'SkillController@update');
-//delete a skill
-Route::delete('/skill/{skill_id}', 'SkillController@destroy');
-// CRUD SKILL END

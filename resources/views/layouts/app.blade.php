@@ -47,7 +47,7 @@
                         <li class="nav-item"><a href="{{ route('register') }}" class="nav-link">Register</a></li>
                     @else
                         <li class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
                                aria-haspopup="true" aria-expanded="false">
                                 {{ Auth::user()->first_name ." ". Auth::user()->last_name }}
                             </a>
@@ -60,6 +60,15 @@
                                 <a href="{{ action('UserController@edit', Auth::user()->id) }}" class="dropdown-item">
                                     Edit User Info
                                 </a>
+
+                                @if (Auth::user()->type == 'admin')
+                                    <a href="{{ action('CategoryController@index') }}" class="dropdown-item">
+                                    Manage Category
+                                    </a>
+                                    <a href="{{ action('SkillController@index') }}" class="dropdown-item">
+                                    Manage Skill
+                                    </a>
+                                @endif
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                       style="display: none;">

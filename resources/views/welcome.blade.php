@@ -11,7 +11,7 @@ align-items: center; display: flex; justify-content: center;">
         <div style="color: #636b6f; font-size: 2rem; font-weight: 600; letter-spacing: .1rem;
         text-transform: uppercase;">
             <a href="{{ route('jobs') }}" style="padding: 0 30px; text-decoration: none;">Browse Jobs</a>
-            <a href="{{ route('jobs') }}" style="padding: 0 30px; text-decoration: none;">Post a Job</a>
+            <a href="{{ action('JobController@create') }}" style="padding: 0 30px; text-decoration: none;">Post a Job</a>
         </div>
     </div>
 </div>

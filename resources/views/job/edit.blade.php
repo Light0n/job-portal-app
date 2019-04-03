@@ -31,7 +31,33 @@ input[type=checkbox]
 				<div class="card-body">
 					<form role="form" method="POST" action="{{ action('JobController@update', $job_id) }}">
                     <div class="row"> {{-- start a row--}}
-                        <div class="col-md-6"> {{-- start 1st column --}}
+
+                        <div class="col-md-6">{{-- start 2nd column --}}
+                        <h5>Select Required Skills for this Job</h5>
+                        <table class="table table-sm table-striped" id="mainTable" style="display:none">
+                            <thead>
+                            <tr>
+                                <th scope="col">Category</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Checked</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+							@foreach ($skills as $skill)
+                                <td>{{ $skill->category_name }}</td>
+                                <td>{{ $skill->skill_name }}</td>
+                                <td>{{ $skill->description }}</td>
+                                <td align="center">
+                                    <input type="checkbox" class="select-skill" 
+                                        value="{{$skill->id}}" {{ $skill->selected? "checked" : "" }}>
+                                </td>
+                                </tr>
+                            @endforeach
+                        </tbody></table>
+                        </div>{{-- end 2nd col 6 --}}
+
+						<div class="col-md-6"> {{-- start 1st column --}}
 						{!! csrf_field() !!}
                         <input name="_method" type="hidden" value="PUT">
                         
@@ -119,7 +145,7 @@ input[type=checkbox]
 						</div>
 
                         {{-- All Skills selection --}}
-                        <div class="form-group row">
+                        <div class="form-group row" style="display:none">
 							<label class="col-lg-4 col-form-label text-lg-right">Skills</label>
 
 							<div class="col-lg-8">
@@ -152,34 +178,6 @@ input[type=checkbox]
 						</div>
                         
                         </div>{{-- end 1st column --}}
-
-                        <div class="col-md-6">{{-- start 2nd column --}}
-                        <h5>Select Required Skills for this Job</h5>
-                        <table class="table table-sm table-striped" id="mainTable" style="display:none">
-                            <thead>
-                            <tr>
-                                <th scope="col">Category</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Description</th>
-                                <th scope="col"></th>
-                                <th scope="col">Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-							@foreach ($skills as $skill)
-                                <td>{{ $skill->category_name }}</td>
-                                <td>{{ $skill->skill_name }}</td>
-                                <td>{{ $skill->description }}</td>
-                                <td align="center">
-                                    <input type="checkbox" class="select-skill" 
-                                        value="{{$skill->id}}" {{ $skill->selected? "checked" : "" }}>
-                                </td>
-                                <td>{{ $skill->selected? "Selected" : "" }}
-                                </td>
-                                </tr>
-                            @endforeach
-                        </tbody></table>
-                        </div>{{-- end 2nd col 6 --}}
                         </div> {{-- end row --}}
 					</form>
 				</div>
@@ -200,16 +198,30 @@ $(document).ready(function () {
 
         if(this.checked){//set Status table, and select option
             // alert(this.value);
-            $(this).parent('td').next().html("Selected");
             $('.custom-select option[value=' + this.value + ']').prop('selected', true); 
 
         }else{//clear Status table, and unselect option
-            $(this).parent('td').next().html("");
             $('.custom-select option[value=' + this.value + ']').prop('selected', false); 
         }
     });
 
-    $('#mainTable').DataTable();
+	/* Create an array with the values of all the checkboxes in a column */
+	$.fn.dataTable.ext.order['dom-checkbox'] = function  ( settings, col )
+	{
+		return this.api().column( col, {order:'index'} ).nodes().map( function ( td, i ) {
+			return $('input', td).prop('checked') ? '1' : '0';
+		} );
+	}
+
+    $('#mainTable').DataTable({
+		"columns": [
+            null,
+            null,
+            null,
+            { "orderDataType": "dom-checkbox",
+			  "orderSequence": [ "desc" ] }],
+		"order": [[ 3, "desc" ]]//begin sort column
+	});
     $('#mainTable').css('display','table');
 });
 </script>

@@ -19,7 +19,18 @@
             <div class="card-header">
                 <div class="row">
                     <h5 class="ml-3"><b>{{$job->title}}</b></h5> 
-                    <h5 class="ml-auto mr-3 {{$job->status == "incomplete" ? "text-danger" : "text-success"}} font-weight-bold text-uppercase">{{ $job->status }}</h5>
+                    <div class="ml-auto mr-3">
+                    <h5 class="mb-0 {{$job->status == "incomplete" ? "text-danger" : "text-success"}} font-weight-bold text-uppercase">{{ $job->status }}</h5>
+                    @if ($job->status == "incomplete")
+                        <p class="mb-0 pb-0 text-danger">
+                        @if ($job->employer_status == "cancelled")
+                            employer cancelled
+                        @else
+                            jobseeker cancelled
+                        @endif
+                        </p>
+                    @endif
+                    </div>
                 </div>
             </div>
             <div class="card-body">
@@ -34,6 +45,17 @@
                     <div class="col-lg-4"><b>Province: </b> {{$job->province}} </div>
                     <div class="col-lg-4"><b>Country:</b> {{$job->country}} </div>
                 </div>
+
+                <div class="row mb-2">
+                    <div class="col-lg-4"><b>Employer: </b> {{$job->employer_info[0]->email}}</div>
+                    <div class="col-lg-4"><b>Reputation: </b>
+                    <b>{{
+                    $job->employer_info[0]->employer_avg_rate}}</b>/5.00 (<b>
+                    {{
+                    $job->employer_info[0]->total_employer_reviews . ' '}}</b>reviews)
+                    </div>
+                </div>
+
                 <div class="row mb-2">
                     <div class="col-lg-4"><b>Create at: </b> {{$job->created_at}}</div>
                     <div class="col-lg-4"><b>Update at: </b> {{$job->updated_at}} </div>
@@ -67,6 +89,15 @@
                             <button class="btn btn-success" type="submit">Apply</button>
                         </form>
                     </div>
+                    @endif
+
+                    @if (Auth::user() != null && Auth::user()->id == $job->employer_id && $job->status == "open")
+                        <a href="{{action('JobController@edit', $job->id)}}" class="btn btn-primary ml-3">Edit</a>
+                        <form action="{{action('JobController@destroy', $job->id)}}" method="post" class="ml-3">
+                            {{csrf_field()}}
+                            <input name="_method" type="hidden" value="DELETE">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
                     @endif
                 </div>
                 <p class="mb-0">

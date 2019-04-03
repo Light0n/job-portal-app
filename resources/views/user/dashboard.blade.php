@@ -95,13 +95,14 @@
 
                         {{-- jobseeker nav --}}
                         <li class="nav-item">
-                            <a class="nav-link jobseeker" id="job-applications-tab" data-toggle="tab" href="" role="tab" aria-controls="job-applications" aria-selected="false">Job Applications</a>
+                            <a class="nav-link jobseeker" id="job-applications-tab" data-toggle="tab" href="" role="tab" aria-controls="job-applications" aria-selected="false"
+                            style="display:none">Job Applications</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link jobseeker" id="current-work-tab" data-toggle="tab" href="" role="tab" aria-controls="current-work" aria-selected="false">Current Work</a>
+                            <a class="nav-link jobseeker" id="current-work-tab" data-toggle="tab" href="" role="tab" aria-controls="current-work" aria-selected="false" style="display:none">Current Work</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link jobseeker" id="past-work-tab" data-toggle="tab" href="" role="tab" aria-controls="past-work" aria-selected="false">Past Work</a>
+                            <a class="nav-link jobseeker" id="past-work-tab" data-toggle="tab" href="" role="tab" aria-controls="past-work" aria-selected="false" style="display:none">Past Work</a>
                         </li>
                     </ul>
 
@@ -206,6 +207,7 @@
                                 <th scope="col">Result</th>
                                 <th scope="col">Reason</th>
                                 <th scope="col">Actions</th>
+                                <th scope="col"></th>
                             </tr>
 
                             </thead>
@@ -235,6 +237,11 @@
                                 </td>
                                 <td>
                                     <a href="{{action('JobController@show', $job->id)}}" class="btn btn-success">View</a>
+                                </td>
+                                <td>
+                                @if ($job->jobseeker_review_id == null)
+                                    <a href="{{action('ReviewController@create', $job->id)}}" class="btn btn-primary">Review</a>
+                                @endif
                                 </td>
                                 </tr>
                             @endforeach
@@ -344,6 +351,7 @@
                                 <th scope="col">Result</th>
                                 <th scope="col">Reason</th>
                                 <th scope="col">Actions</th>
+                                <th scope="col"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -372,6 +380,11 @@
                                 </td>
                                 <td>
                                     <a href="{{action('JobController@show', $job->id)}}" class="btn btn-success">View</a>
+                                </td>
+                                <td>
+                                @if ($job->employer_review_id == null)
+                                    <a href="{{action('ReviewController@create', $job->id)}}" class="btn btn-primary">Review</a>
+                                @endif
                                 </td>
                                 </tr>
                             @endforeach
@@ -432,14 +445,27 @@
         $('#employerBtn').trigger('change');
 
         // // tables setup
-        $('#openTable').DataTable();
+        $('#openTable').DataTable({
+            "aaSorting": []//disable initial sort
+        });
         $('#openTable').css('display','table');
-        $('#workInProgressTable').DataTable();
-        $('#pastJobPostsTable').DataTable();
+        
+        $('#workInProgressTable').DataTable({
+            "aaSorting": []//disable initial sort
+        });
+        $('#pastJobPostsTable').DataTable({
+            "aaSorting": []//disable initial sort
+        });
 
-        $('#jobApplicationsTable').DataTable();
-        $('#currentWorkTable').DataTable();
-        $('#pastWorkTable').DataTable();
+        $('#jobApplicationsTable').DataTable({
+            "aaSorting": []//disable initial sort
+        });
+        $('#currentWorkTable').DataTable({
+            "aaSorting": []//disable initial sort
+        });
+        $('#pastWorkTable').DataTable({
+            "aaSorting": []//disable initial sort
+        });
     });
 </script>
 @stop

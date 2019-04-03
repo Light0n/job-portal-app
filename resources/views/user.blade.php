@@ -25,7 +25,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         var user = {!! json_encode($user) !!};
-        // console.log(user);
+        console.log(user);
         //print JSON to page
         $("#content").html(JSON.stringify(user, undefined, 4));
     });

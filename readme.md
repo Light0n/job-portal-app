@@ -5,7 +5,7 @@ php -version
 # check mysql version
 mysql -V
 ```
-![alt text](readme-imgs\added-php-mysql-to-environment-path.PNG)
+![alt text](https://github.com/Light0n/job-portal-app/blob/master/readme-imgs/added-php-mysql-to-environment-path.PNG?raw=true)
 1. create user, password and database in mysql to match with the database config in ".env" file lines 8 to 13
 ```bash
 # enter as admin
@@ -22,9 +22,9 @@ mysql> grant all on job_portal_app.* to 'job_portal_app';
 ```bash
 D:\CSIS3300\job_portal_app> php artisan migrate:refresh --seed
 ```
-![alt text](readme-imgs\innitialize-database.PNG)
+![alt text](https://github.com/Light0n/job-portal-app/blob/master/readme-imgs/innitialize-database.PNG?raw=true)
 
-4. start the serve
+1. start the serve
 ```bash
 D:\CSIS3300\job_portal_app> php artisan serve
 ```

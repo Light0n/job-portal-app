@@ -7,7 +7,7 @@ php -version
 # check mysql version
 mysql -V
 ```
-![alt text](https://github.com/Light0n/job-portal-app/blob/master/readme-imgs/added-php-mysql-to-environment-path.PNG?raw=true)
+![alt text](https://github.com/Light0n/job-portal-app/blob/master/readme-imgs/php-mysql-composer-in-PATH-environment.PNG?raw=true)
 
 1. create user, password and database in mysql to match with the database config in ".env" file lines 8 to 13
 ```bash

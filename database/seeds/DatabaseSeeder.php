@@ -65,12 +65,13 @@ class DatabaseSeeder extends Seeder
         for ($i=0; $i < NUM_JOB_APPLICATION ; $i++) { //create 100 job_application
             factory(App\JobApplication::class)->create();
         }
-//about 50% of jobs have jobseeker chosen
-            //get 50% random jobs
-            $rand_jobs = getValuesOfColumnByQuery('id', 
-            'select id from job order by rand() limit '.NUM_JOB/2);
+        
+        //about 50% of jobs have jobseeker chosen
+        //get 50% random jobs
+        $rand_jobs = getValuesOfColumnByQuery('id', 
+        'select id from job order by rand() limit '.NUM_JOB/2);
 
-            //assign jobseeker_id from list of job_application
+        //assign jobseeker_id from list of job_application
         for($i = 0; $i<NUM_JOB/2; $i++){
             $job_id = $rand_jobs[$i];
             //get jobseeker_id
@@ -87,7 +88,7 @@ class DatabaseSeeder extends Seeder
 
         //about 50% of in-progress job reach end states
         //jobseeker: cancel
-        //employer: complete, incomplete
+        //employer: accept, cancel
         $in_progress_jobs = getValuesOfColumnByQuery('id', 
             "select id from job where status='in-progress' order by rand()");
         
@@ -106,22 +107,21 @@ class DatabaseSeeder extends Seeder
             switch(mt_rand(0,2)){
                 case 0://jobseeker cancel the job
                     //update job table
-                    // DB::select("update job set jobseeker_status='cancelled', employer_status='picked', status='incomplete' where job_id=".$job_id);
-                    if(mt_rand(0,1)){
-                        //addReview("insert into employer_review (job_id, employer_id, employer_rate, review_content, by_jobseeker_id) values(:job_id, :to_id, :review_rate, :review_content, :from_id)", $job_id, $job[0]->employer_id, mt_rand(1,5), NULL, $job[0]->jobseeker_id);
+                    DB::select("update job set jobseeker_status='cancelled', employer_status='picked', status='incomplete' where id=".$job_id);
+                    if(mt_rand(0,1)){//employer may give review
                         $rate = mt_rand(1,5);
                         $review_id = addReview('employer_review', $rate);
                         //update job table
-                        DB::select("update job set jobseeker_status='cancelled', employer_status='picked', status='incomplete', employer_review_id=".$review_id." where id=".$job_id);
-
+                        DB::select("update job set 
+                        employer_review_id=".$review_id." where id=".$job_id);
+                        
                         updateUserRate($job[0]->employer_id, $rate, "employer");
                     }
-                    if(mt_rand(0,1)){
-                        //addReview("insert into jobseeker_review (job_id, jobseeker_id, jobseeker_rate, review_content, by_employer_id) values(:job_id, :to_id, :review_rate, :review_content, :from_id)", $job_id, $job[0]->jobseeker_id, mt_rand(1,5), NULL, $job[0]->employer_id);
-
+                    if(mt_rand(0,1)){//jobseeker may give review
                         $rate = mt_rand(1,5);
                         $review_id = addReview('jobseeker_review', $rate);
-                        DB::select("update job set jobseeker_status='cancelled', employer_status='picked', status='incomplete', jobseeker_review_id=".$review_id." where id=".$job_id);
+                        DB::select("update job set 
+                        jobseeker_review_id=".$review_id." where id=".$job_id);
 
                         updateUserRate($job[0]->jobseeker_id, $rate, "jobseeker");
                     }
@@ -129,20 +129,20 @@ class DatabaseSeeder extends Seeder
                     break;
                 case 1://employer cancel the job
                     //update job table
-                    // DB::select("update job set jobseeker_status='working', employer_status='cancelled', status='incomplete' where job_id=".$job_id);
-                    if(mt_rand(0,1)){
-                        //addReview("insert into employer_review (job_id, employer_id, employer_rate, review_content, by_jobseeker_id) values(:job_id, :to_id, :review_rate, :review_content, :from_id)", $job_id, $job[0]->employer_id, mt_rand(1,5), NULL, $job[0]->jobseeker_id);
+                    DB::select("update job set jobseeker_status='working', employer_status='cancelled', status='incomplete' where id=".$job_id);
+                    if(mt_rand(0,1)){//employer may give review
                         $rate = mt_rand(1,5);
                         $review_id = addReview('employer_review', $rate);
-                        DB::select("update job set jobseeker_status='working', employer_status='cancelled', status='incomplete', employer_review_id=".$review_id." where id=".$job_id);
+                        DB::select("update job set 
+                        employer_review_id=".$review_id." where id=".$job_id);
 
                         updateUserRate($job[0]->employer_id, $rate, "employer");
                     }
-                    if(mt_rand(0,1)){
-                        //addReview("insert into jobseeker_review (job_id, jobseeker_id, jobseeker_rate, review_content, by_employer_id) values(:job_id, :to_id, :review_rate, :review_content, :from_id)", $job_id, $job[0]->jobseeker_id, mt_rand(1,5), NULL, $job[0]->employer_id);
+                    if(mt_rand(0,1)){//jobseeker may give review
                         $rate = mt_rand(1,5);
                         $review_id = addReview('jobseeker_review', $rate);
-                        DB::select("update job set jobseeker_status='working', employer_status='cancelled', status='incomplete', jobseeker_review_id=".$review_id." where id=".$job_id);
+                        DB::select("update job set 
+                        jobseeker_review_id=".$review_id." where id=".$job_id);
 
                         updateUserRate($job[0]->jobseeker_id, $rate, "jobseeker");
                     }
@@ -150,21 +150,19 @@ class DatabaseSeeder extends Seeder
                 case 2://employer accept the job is completed
                     //update job table
                     DB::select("update job set jobseeker_status='done', employer_status='accepted', status='complete' where id=".$job_id);
-                    if(mt_rand(0,1)){
-                        //addReview("insert into employer_review (job_id, employer_id, employer_rate, review_content, by_jobseeker_id) values(:job_id, :to_id, :review_rate, :review_content, :from_id)", $job_id, $job[0]->employer_id, mt_rand(1,5), NULL, $job[0]->jobseeker_id);
-
+                    if(mt_rand(0,1)){//employer may give review
                         $rate = mt_rand(1,5);
                         $review_id = addReview('employer_review', $rate);
-                        DB::select("update job set jobseeker_status='done', employer_status='accepted', status='complete', employer_review_id=".$review_id." where id=".$job_id);
+                        DB::select("update job set 
+                        employer_review_id=".$review_id." where id=".$job_id);
 
                         updateUserRate($job[0]->employer_id, $rate, "employer");
                     }
-                    if(mt_rand(0,1)){
-                        //addReview("insert into jobseeker_review (job_id, jobseeker_id, jobseeker_rate, review_content, by_employer_id) values(:job_id, :to_id, :review_rate, :review_content, :from_id)", $job_id, $job[0]->jobseeker_id, mt_rand(1,5), NULL, $job[0]->employer_id);
-
+                    if(mt_rand(0,1)){//jobseeker may give review
                         $rate = mt_rand(1,5);
                         $review_id = addReview('jobseeker_review', $rate);
-                        DB::select("update job set jobseeker_status='done', employer_status='accepted', status='complete', jobseeker_review_id=".$review_id." where id=".$job_id);
+                        DB::select("update job set 
+                        jobseeker_review_id=".$review_id." where id=".$job_id);
 
                         updateUserRate($job[0]->jobseeker_id, $rate, "jobseeker");
                     }
@@ -188,17 +186,6 @@ function getValuesOfColumnByQuery($column, $query){
 
     return $setOfValues;
 }
-
-// function addReview($query, 
-//     $job_id, $to_id, $review_rate, $review_content=NULL, $from_id){
-//     DB::select($query, array(
-//         'job_id' => $job_id,
-//         'to_id' => $to_id,
-//         'review_rate' => $review_rate,
-//         'review_content' => $review_content,
-//         'from_id' => $from_id
-//     ));
-// }
 
 //create a review and return review_id
 function addReview($table, $rate, $review_content=NULL){

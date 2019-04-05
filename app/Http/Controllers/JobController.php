@@ -37,10 +37,8 @@ class JobController extends Controller
                 from user where id = '.$job->employer_id);
         }
         unset($job);//destroy reference variable
-        // return view("jobs", compact("jobs"));
+      
         return view("job.index", compact("jobs"));
-
-        // return dd(DB::select("select * from job where status='open'"));
     }
 
     public function show($job_id){
@@ -122,8 +120,7 @@ class JobController extends Controller
         $job->job_applications = $job_applications;
 
         // dd($job);
-
-        // return view("job", compact("job"));
+        
         return view("job.show", compact("job"));
     }
 

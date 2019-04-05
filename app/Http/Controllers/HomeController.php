@@ -153,8 +153,7 @@ class HomeController extends Controller
         $user->jobs_past= $jobs_past;
 
         // dd($user);
-
-        // return view("home", compact("user"));
+        
         return view("user.dashboard", compact("user"));
     }
 }

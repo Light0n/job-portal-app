@@ -326,11 +326,13 @@ class JobController extends Controller
         //get job
         $job = Job::find($job_id);//get job
 
-        $job->jobseeker_id = request()->jobseeker_id;
-        $job->status = "in-progress";
-        $job->employer_status = "picked";            
-        $job->jobseeker_status = "working";
-        $job->save();
+        if(Auth::user()->id == $job->employer_id && $job->status == 'open'){
+            $job->jobseeker_id = request()->jobseeker_id;
+            $job->status = "in-progress";
+            $job->employer_status = "picked";            
+            $job->jobseeker_status = "working";
+            $job->save();
+        }
 
         return redirect('/home');
     }

@@ -138,8 +138,6 @@ class TestController extends Controller
         $user->jobs_past= $jobs_past;
 
         dd($user);
-
-        return view("user", compact("user"));
     }
 
     //show all jobs

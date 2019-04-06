@@ -38,10 +38,5 @@ D:\CSIS3300\job_portal_app> php artisan serve
 5. go to browser "http://localhost:8000/"
 6. 10 mocking users all have the same password "jobportal". Some user emails: admin@gmail.com (admin), fae03@example.org (normal user). You can go to database to get more.
 7. some routes
-  - welcome: http://localhost:8000
-  - login: http://localhost:8000/login
-  - register: http://localhost:8000/register
-  - list all open Jobs: http://localhost:8000/jobs
-  - list detail of job which has id = 3 and all its job applications: http://localhost:8000/jobs/3
-  - list user info and user's related jobs: http://localhost:8000/home
+![alt text](https://github.com/Light0n/job-portal-app/blob/master/readme-imgs/routes.PNG?raw=true)
 
